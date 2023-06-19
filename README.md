@@ -1,4 +1,17 @@
 # easyGovJo-v1
+
+
+## Authers
+
+- Ibraheem Areeda
+- Malik Abdelal
+- Asem Attallah
+- Sakher Shteyat
+- Almothana Almasri
+- Zekra Qura'an
+- Walaa Alrefai
+
+
 ## install  
 
 1. install requirements
