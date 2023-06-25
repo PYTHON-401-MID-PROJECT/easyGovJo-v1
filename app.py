@@ -8,7 +8,6 @@ import pickle  # to save embeddings
 import os #  to deal with file path
 from langchain.chat_models import ChatOpenAI  # to deal with chat GPT
 from langchain.chains.question_answering import load_qa_chain  # to deal with chat GPT
-from io import StringIO
 
 def main():
     
@@ -28,7 +27,7 @@ def main():
     # Iterate over each file in the folder
     for filename in os.listdir(folder_path):
         file_path = os.path.join(folder_path, filename)  # Create the full file path
-        if os.path.isfile(file_path):  # Check if it's a file (not a folder)
+        if os.path.isfile(file_path) and file_path.endswith(".txt") :  # Check if it's a file (not a folder)
             with open(file_path, 'r',encoding='utf-8') as file:
                 string_data = file.read()
                 chunks = text_splitter.split_text(text=string_data)     # to split the text file into chunks (parts)
