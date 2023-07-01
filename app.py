@@ -1,7 +1,5 @@
 import streamlit as st    #web service provider 
 from dotenv import load_dotenv #to load open Ai API key
-from PyPDF2 import PdfReader  # read pdf files
-from langchain.text_splitter import RecursiveCharacterTextSplitter   # to manipulate text 
 from langchain.embeddings.openai import OpenAIEmbeddings # to convert text to embeddings
 from langchain.vectorstores import FAISS  # to convert text to embeddings
 import pickle  # to save embeddings
@@ -20,8 +18,20 @@ def main():
     documents = loader.load()
     text_splitter = CharacterTextSplitter(chunk_size=10000, chunk_overlap=0)
     docs = text_splitter.split_documents(documents)
-    embeddings = OpenAIEmbeddings()
-    db = FAISS.from_documents(docs, embeddings)
+
+    if os.path.exists("data.pkl"):      # True --> we worked this file befor 
+        with open("data.pkl", "rb") as f:
+            db = pickle.load(f)
+        st.write('Embeddings Loaded from the Disk')
+
+    else:
+        embeddings = OpenAIEmbeddings()
+        db = FAISS.from_documents(docs, embeddings)
+        with open("data.pkl", "wb") as f:
+            pickle.dump(db, f)
+        st.write('Embeddings computaion')
+
+
 
 
     query = st.text_input("Ask questions about your data:")
