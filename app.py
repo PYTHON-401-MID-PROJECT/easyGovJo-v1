@@ -27,7 +27,7 @@ def main():
     query = st.text_input("Ask questions about your data:")
  
     if query:
-        docs = db.similarity_search(query)
+        docs = db.similarity_search(query=query, k=1)
         # st.write("--------------------")
         st.write(docs)
         # st.write("--------------------")
