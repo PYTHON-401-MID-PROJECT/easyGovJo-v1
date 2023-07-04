@@ -17,7 +17,7 @@
 - As the first government transaction helper AI bot in the country, JoEasyGov aims to streamline and simplify the often complex and time-consuming process of dealing with governmental procedures.
 - The primary purpose of JoEasyGov is to provide a user-friendly and efficient platform that assists individuals in navigating through various government transactions.
 - Whether it's obtaining official documents, submitting applications, or seeking information regarding specific services, JoEasyGov is here to assist.
-
+presentation : [https://my.visme.co/view/31rkqm74-ai-hukoomibot](https://my.visme.co/view/31rkqm74-ai-hukoomibot)
 
 ## install  
 
