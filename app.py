@@ -8,16 +8,30 @@ from langchain.chat_models import ChatOpenAI  # to deal with chat GPT
 from langchain.chains.question_answering import load_qa_chain  # to deal with chat GPT
 from langchain.document_loaders import DirectoryLoader
 from langchain.text_splitter import CharacterTextSplitter
+import openai
+from tenacity import (
+    retry,
+    stop_after_attempt,
+    wait_random_exponential,
+)  # for exponential backoff
+ 
+
+
+
+
+
 
 def main():
     
     load_dotenv()  #to load open Ai API key
     st.header("Gov Chat Bot") # to write header in the web
-
+    
     loader = DirectoryLoader('txt_data', glob="**/*.txt")
     documents = loader.load()
+    st.write(documents)
     text_splitter = CharacterTextSplitter(chunk_size=10000, chunk_overlap=0)
     docs = text_splitter.split_documents(documents)
+
 
     if os.path.exists("data.pkl"):      # True --> we worked this file befor 
         with open("data.pkl", "rb") as f:
@@ -26,7 +40,13 @@ def main():
 
     else:
         embeddings = OpenAIEmbeddings()
-        db = FAISS.from_documents(docs, embeddings)
+     
+        @retry(wait=wait_random_exponential(min=1, max=60), stop=stop_after_attempt(6))
+        def completion_with_backoff(**kwargs):
+            return openai.Completion.create(**kwargs)
+        
+        completion_with_backoff(db = FAISS.from_documents(docs, embeddings))
+
         with open("data.pkl", "wb") as f:
             pickle.dump(db, f)
         st.write('Embeddings computaion')
